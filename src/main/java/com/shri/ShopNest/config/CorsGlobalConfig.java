@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsGlobalConfig {
 
     @Value("${frontend.url}")
-    private static String FE_URL;
+    private String feUrl;
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -18,7 +18,7 @@ public class CorsGlobalConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins(FE_URL)
+                        .allowedOrigins(feUrl)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);

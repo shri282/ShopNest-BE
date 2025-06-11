@@ -21,21 +21,21 @@ public class CartScheduler {
     @Autowired
     private EmailService emailService;
 
-    @Transactional
-    @Scheduled(cron = "*/5 * * * * *")
-    public void cartRemainder() {
-        List<Cart> carts = cartService.getAbandonedCarts();
-        System.out.format("cart remainder started for total %d abandoned carts", carts.size());
-        if (carts.isEmpty()) {
-            return;
-        }
-
-        for (Cart cart: carts) {
-            User user = cart.getUser();
-            emailService.sendEmail(user.getEmail(), "abandoned cart", "hi "+user.getUsername() +" did you forget to checkout your cart");
-        }
-
-        System.out.format("cart remainder ended for total %d abandoned carts", carts.size());
-    }
+//    @Transactional
+//    @Scheduled(cron = "*/5 * * * * *")
+//    public void cartRemainder() {
+//        List<Cart> carts = cartService.getAbandonedCarts();
+//        System.out.format("cart remainder started for total %d abandoned carts", carts.size());
+//        if (carts.isEmpty()) {
+//            return;
+//        }
+//
+//        for (Cart cart: carts) {
+//            User user = cart.getUser();
+//            emailService.sendEmail(user.getEmail(), "abandoned cart", "hi "+user.getUsername() +" did you forget to checkout your cart");
+//        }
+//
+//        System.out.format("cart remainder ended for total %d abandoned carts", carts.size());
+//    }
 
 }

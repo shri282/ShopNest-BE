@@ -7,7 +7,7 @@ COPY pom.xml .
 COPY src ./src
 
 # Build the application (creates a JAR in /app/target)
-RUN mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 # Stage 2: Run the application with a lightweight JRE
 FROM eclipse-temurin:17-jre-alpine

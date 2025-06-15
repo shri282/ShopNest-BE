@@ -1,9 +1,7 @@
 package com.shri.ShopNest.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -60,14 +58,9 @@ public class CartItem {
 
     private LocalDateTime updatedAt;
 
-    @PrePersist
     @PreUpdate
-    private void calculateTotalPrice() {
+    private void onUpdate() {
         this.updatedAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-        if (unitPrice != null && quantity != null && discount != null) {
-            totalPrice = unitPrice.subtract(discount).multiply(BigDecimal.valueOf(quantity));
-        }
     }
 
     public void addQuantity(int quantity) {

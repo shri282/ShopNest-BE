@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("login")
     public ResponseEntity<SuccessfulLoginResponse> login(@RequestBody User user) throws Exception {

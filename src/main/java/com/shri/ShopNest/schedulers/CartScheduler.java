@@ -15,11 +15,14 @@ import java.util.List;
 @Service
 public class CartScheduler {
 
-    @Autowired
-    private CartService cartService;
+    private final CartService cartService;
 
-    @Autowired
-    private EmailService emailService;
+    private final EmailService emailService;
+
+    public CartScheduler(CartService cartService, EmailService emailService) {
+        this.cartService = cartService;
+        this.emailService = emailService;
+    }
 
 //    @Transactional
 //    @Scheduled(cron = "*/5 * * * * *")

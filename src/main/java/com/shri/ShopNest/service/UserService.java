@@ -3,16 +3,19 @@ package com.shri.ShopNest.service;
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
 import com.shri.ShopNest.model.User;
 import com.shri.ShopNest.repo.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserService {
-    @Autowired
-    private UserRepo userRepo;
-    public User findOne(int id) throws Exception {
+    private final UserRepo userRepo;
+
+    public UserService(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
+
+    public User findOne(int id) throws ResourceNotFoundException {
         return userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("user not found"));
     }
 
@@ -28,7 +31,7 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    public void remove(int id) throws Exception {
+    public void remove(int id) throws ResourceNotFoundException {
         userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("user not found"));
         userRepo.deleteById(id);
     }

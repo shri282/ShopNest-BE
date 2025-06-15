@@ -18,11 +18,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/users/{userId}/cart")
 public class CartController {
+    private final CartService cartService;
+    private final CartMapper cartMapper;
 
-    @Autowired
-    private CartService cartService;
-    @Autowired
-    private CartMapper cartMapper;
+    public CartController(CartService cartService, CartMapper cartMapper) {
+        this.cartService = cartService;
+        this.cartMapper = cartMapper;
+    }
 
     @GetMapping
     public ResponseEntity<CartDto> getUserActiveCart(@PathVariable("userId") long userId) {

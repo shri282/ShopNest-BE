@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
+@SuppressWarnings("unused")
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
+    @SuppressWarnings("unused")
     public ResponseEntity<ApiErrorResponse> handleResourceNotFound(ResourceNotFoundException ex, HttpServletRequest req) {
         ApiErrorResponse response = new ApiErrorResponse(
                 LocalDateTime.now(),
@@ -26,6 +28,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
+    @SuppressWarnings("unused")
     public ResponseEntity<ApiErrorResponse> handleInvalidUserNameOrPassword(AuthenticationException ex, HttpServletRequest req) {
         ApiErrorResponse response = new ApiErrorResponse(
                 LocalDateTime.now(),
@@ -38,6 +41,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ApiException.class)
+    @SuppressWarnings("unused")
     public ResponseEntity<ApiErrorResponse> handleApiException(ApiException ex, HttpServletRequest request) {
         ApiErrorResponse response = new ApiErrorResponse(
                 LocalDateTime.now(),
@@ -50,7 +54,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleAllUncaught(Exception ex, HttpServletRequest request) {
+    @SuppressWarnings("unused")
+    public ResponseEntity<ApiErrorResponse> handleAllUncaught(HttpServletRequest request) {
         ApiErrorResponse response = new ApiErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.shri.ShopNest.enums.CartStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,6 +26,7 @@ public class Cart {
         this.grandTotal = BigDecimal.ZERO;
         this.totalQuantity = 0;
         this.totalItems = 0;
+        this.expiresAt = expiresAt;
     }
 
     @Id

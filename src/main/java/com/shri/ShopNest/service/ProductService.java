@@ -19,8 +19,11 @@ import static com.shri.ShopNest.specification.ProductSpecification.*;
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductRepo productRepo;
+    private final ProductRepo productRepo;
+
+    public ProductService(ProductRepo productRepo) {
+        this.productRepo = productRepo;
+    }
 
     public List<Product> findAll(Map<String, String> filter) {
         if (!filter.isEmpty()) {

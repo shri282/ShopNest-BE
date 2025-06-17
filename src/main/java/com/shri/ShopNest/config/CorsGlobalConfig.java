@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsGlobalConfig {
 
-    @Value("${FE_URL}")
+    @Value("${frontend.url}")
     private String feUrl;
 
     @Bean

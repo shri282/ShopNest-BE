@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +21,15 @@ import java.util.function.Function;
 public class JwtService {
 
     private final String secretKey;
+    private final ApplicationContext context;
 
-    public JwtService() throws NoSuchAlgorithmException {
+    public JwtService(ApplicationContext context) throws NoSuchAlgorithmException {
         KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
         secretKey = Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
+        this.context = context;
     }
 
-    public String generateToken(String username) {
+    public String generateAccessToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
                 .claims()
@@ -34,6 +37,19 @@ public class JwtService {
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
+                .and()
+                .signWith(getKey())
+                .compact();
+    }
+
+    public String generateRefreshToken(String username) {
+        Map<String, Object> claims = new HashMap<>();
+        return Jwts.builder()
+                .claims()
+                .add(claims)
+                .subject(username)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60))
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -73,5 +89,11 @@ public class JwtService {
 
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
+    }
+
+    public boolean isValidRefreshToken(String refreshToken) {
+        final String userName = extractUserName(refreshToken);
+        UserDetails userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(userName);
+        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(refreshToken));
     }
 }

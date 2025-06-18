@@ -1,8 +1,10 @@
 package com.shri.ShopNest.user.controller;
 
 import com.shri.ShopNest.user.model.User;
-import com.shri.ShopNest.pojo.SuccessfulLoginResponse;
+import com.shri.ShopNest.pojo.AuthenticatedUserResponse;
 import com.shri.ShopNest.user.service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +20,18 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<SuccessfulLoginResponse> login(@RequestBody User user) throws Exception {
-        return new ResponseEntity<>(authService.verify(user), HttpStatus.OK);
+    public ResponseEntity<AuthenticatedUserResponse> login(@RequestBody User user, HttpServletResponse response) throws Exception {
+        return ResponseEntity.ok(authService.verify(user, response));
     }
 
     @PostMapping("register")
     public ResponseEntity<User> register(@RequestBody User user) {
         return new ResponseEntity<>(authService.register(user), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/auth/refresh")
+    public ResponseEntity<AuthenticatedUserResponse> refreshToken(HttpServletRequest request) {
+        return ResponseEntity.ok(authService.refreshToken(request));
     }
 
 }

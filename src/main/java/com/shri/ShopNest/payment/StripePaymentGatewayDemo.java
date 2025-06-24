@@ -7,17 +7,19 @@ import com.shri.ShopNest.payment.dto.StripeResponse;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/user/payment")
 public class StripePaymentGatewayDemo {
 
+    @Value("${frontend.url}")
+    private String feUrl;
     private final CartRepo cartRepo;
     public StripePaymentGatewayDemo(CartRepo cartRepo) {
         this.cartRepo = cartRepo;
@@ -34,8 +36,8 @@ public class StripePaymentGatewayDemo {
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .setSuccessUrl("http://localhost:3001/user/cart")
-                        .setCancelUrl("http://localhost:3001/user/cart")
+                        .setSuccessUrl(feUrl +"/user/cart")
+                        .setCancelUrl(feUrl +"/user/cart")
                         .addAllLineItem(lineItems)
                         .build();
 

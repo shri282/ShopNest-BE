@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/payment")
+@RequestMapping("api/user/payment")
 public class StripePaymentGatewayDemo {
 
     private final CartRepo cartRepo;
@@ -33,8 +34,8 @@ public class StripePaymentGatewayDemo {
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .setSuccessUrl("http://localhost:8080/success")
-                        .setCancelUrl("http://localhost:8080/cancel")
+                        .setSuccessUrl("http://localhost:3001/user/cart")
+                        .setCancelUrl("http://localhost:3001/user/cart")
                         .addAllLineItem(lineItems)
                         .build();
 
@@ -44,7 +45,7 @@ public class StripePaymentGatewayDemo {
         return StripeResponse
                 .builder()
                 .status(200)
-                .message("Payment session created ")
+                .message("Payment session created")
                 .sessionId(session.getId())
                 .sessionUrl(session.getUrl())
                 .build();
@@ -58,6 +59,7 @@ public class StripePaymentGatewayDemo {
             SessionCreateParams.LineItem.PriceData.ProductData productData =
                     SessionCreateParams.LineItem.PriceData.ProductData.builder()
                             .setName(cartItem.getProduct().getName())
+                            .setDescription(cartItem.getProduct().getDescription())
                             .build();
 
             // Create new line item with the above product data and associated price

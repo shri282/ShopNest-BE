@@ -65,7 +65,7 @@ public class CartService {
     }
     public Cart getOrCreateCart(long userId) throws ResourceNotFoundException {
         List<Cart> carts = cartRepo.findByUserId(userId);
-        User user = userRepo.findById((int) userId).orElseThrow(() -> new ResourceNotFoundException("user not found"));
+        User user = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user not found"));
 
         if (!carts.isEmpty()) {
             Optional<Cart> cart = carts.stream()

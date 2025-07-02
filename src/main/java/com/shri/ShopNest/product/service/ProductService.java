@@ -63,7 +63,7 @@ public class ProductService {
 
             product.setImageName(imageFile.getOriginalFilename());
             product.setImageType(imageFile.getContentType());
-            product.setImage(imageFile.getBytes());
+//            product.setImage(imageFile.getBytes());
             product.setImageURL(imageURL);
         }
 
@@ -73,14 +73,14 @@ public class ProductService {
     public Product update(Product product, MultipartFile imageFile) throws IOException {
         if (imageFile != null && !imageFile.isEmpty()) {
             Product existingProduct = findOne(product.getId());
-            if (!Arrays.equals(existingProduct.getImage(), imageFile.getBytes())) {
+//            if (!Arrays.equals(existingProduct.getImage(), imageFile.getBytes())) {
                 String imageURL = cloudinaryService.upload(imageFile);
                 product.setImageURL(imageURL);
-            }
+//            }
 
             product.setImageName(imageFile.getOriginalFilename());
             product.setImageType(imageFile.getContentType());
-            product.setImage(imageFile.getBytes());
+//            product.setImage(imageFile.getBytes());
         } else {
             product.removeImage();
         }

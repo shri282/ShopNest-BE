@@ -11,7 +11,7 @@ public class CartItemDto {
     private Long id;
     private int productId;
     private String productName;
-    private byte[] image;
+    private String imageURL;
     private boolean availability;
     private int quantity;
     private double unitPrice;

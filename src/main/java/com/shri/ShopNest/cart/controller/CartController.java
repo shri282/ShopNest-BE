@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 @RestController
 @RequestMapping("/users/{userId}/cart")
 public class CartController {
@@ -37,20 +38,20 @@ public class CartController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable long id) throws Exception {
+    public ResponseEntity<String> delete(@PathVariable long id) {
         cartService.delete(id);
         return new ResponseEntity<>("cart deleted successfully", HttpStatus.OK);
     }
 
     @PutMapping("cartItem/{itemId}/addQuantity")
     public ResponseEntity<CartDto> addCartItemQuantity(@PathVariable("itemId") long itemId,
-                                                       @RequestParam("quantity") int quantity) throws Exception {
+                                                       @RequestParam("quantity") int quantity) {
         CartDto cartDto = cartService.addCartItemQuantity(itemId, quantity);
         return new ResponseEntity<>(cartDto, HttpStatus.OK);
     }
 
     @PutMapping("cartItem/{itemId}/remove")
-    public ResponseEntity<CartDto> removeCartItem(@PathVariable("itemId") long itemId) throws Exception {
+    public ResponseEntity<CartDto> removeCartItem(@PathVariable("itemId") long itemId) {
         CartDto cartDto = cartService.removeCartItem(itemId);
         return new ResponseEntity<>(cartDto, HttpStatus.OK);
     }

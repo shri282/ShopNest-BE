@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 @RestController
 @RequestMapping("products")
 public class ProductController {
@@ -34,7 +35,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product> findOne(@PathVariable int id) throws Exception {
+    public ResponseEntity<Product> findOne(@PathVariable int id) {
         return new ResponseEntity<>(productService.findOne(id), HttpStatus.OK);
     }
 
@@ -53,7 +54,7 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) throws Exception {
+    public ResponseEntity<String> delete(@PathVariable int id) {
         productService.delete(id);
         return new ResponseEntity<>("product deleted successfully", HttpStatus.OK);
     }

@@ -44,6 +44,8 @@ public class Product {
     @Lob
     private byte[] image;
 
+    private String imageURL;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
@@ -64,6 +66,13 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void removeImage() {
+        this.setImageName(null);
+        this.setImageType(null);
+        this.setImage(null);
+        this.setImageURL(null);
     }
 
     @Override

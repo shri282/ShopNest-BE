@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    @SuppressWarnings("unused")
     public ResponseEntity<ApiErrorResponse> handleResourceNotFound(ResourceNotFoundException ex, HttpServletRequest req) {
         ApiErrorResponse response = new ApiErrorResponse(
                 LocalDateTime.now(),
@@ -28,7 +27,6 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    @SuppressWarnings("unused")
     public ResponseEntity<ApiErrorResponse> handleInvalidUserNameOrPassword(AuthenticationException ex, HttpServletRequest req) {
         ApiErrorResponse response = new ApiErrorResponse(
                 LocalDateTime.now(),
@@ -41,7 +39,6 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ApiException.class)
-    @SuppressWarnings("unused")
     public ResponseEntity<ApiErrorResponse> handleApiException(ApiException ex, HttpServletRequest request) {
         ApiErrorResponse response = new ApiErrorResponse(
                 LocalDateTime.now(),
@@ -54,7 +51,6 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    @SuppressWarnings("unused")
     public ResponseEntity<ApiErrorResponse> handleAllUncaught(HttpServletRequest request) {
         ApiErrorResponse response = new ApiErrorResponse(
                 LocalDateTime.now(),

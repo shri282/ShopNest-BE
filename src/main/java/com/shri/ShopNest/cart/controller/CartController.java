@@ -17,24 +17,21 @@ import java.util.Optional;
 @RequestMapping("/users/{userId}/cart")
 public class CartController {
     private final CartService cartService;
-    private final CartMapper cartMapper;
-
-    public CartController(CartService cartService, CartMapper cartMapper) {
+    public CartController(CartService cartService) {
         this.cartService = cartService;
-        this.cartMapper = cartMapper;
     }
 
     @GetMapping
     public ResponseEntity<CartDto> getUserActiveCart(@PathVariable("userId") long userId) {
         Optional<Cart> cart = cartService.findUserActiveCart(userId);
         return cart
-                .map(cartEntity -> ResponseEntity.ok(cartMapper.toCartDTO(cartEntity)))
+                .map(cartEntity -> ResponseEntity.ok(CartMapper.toCartDTO(cartEntity)))
                 .orElseThrow(() -> new ResourceNotFoundException("No active cart found for user "+userId));
     }
 
     @PostMapping
     public ResponseEntity<CartDto> addItemToCart(@PathVariable("userId") long userId, @RequestBody Product product) {
-        return new ResponseEntity<>(cartMapper.toCartDTO(cartService.addToCart(userId, product)), HttpStatus.CREATED);
+        return new ResponseEntity<>(CartMapper.toCartDTO(cartService.addToCart(userId, product)), HttpStatus.CREATED);
     }
 
     @DeleteMapping("{id}")

@@ -1,6 +1,8 @@
 package com.shri.ShopNest.product.service;
 
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
+import com.shri.ShopNest.product.dto.ProductDto;
+import com.shri.ShopNest.product.mapper.ProductMapper;
 import com.shri.ShopNest.product.model.Product;
 import com.shri.ShopNest.product.repo.ProductRepo;
 import com.shri.ShopNest.utils.CloudinaryService;
@@ -28,7 +30,7 @@ public class ProductService {
         this.cloudinaryService = cloudinaryService;
     }
 
-    public List<Product> findAll(Map<String, String> filter) {
+    public List<ProductDto> findAll(Map<String, String> filter) {
         if (!filter.isEmpty()) {
             return productRepo.findAll().stream()
                     .filter(product -> {
@@ -43,10 +45,9 @@ public class ProductService {
                             matches &= product.getPrize() == Double.parseDouble(filter.get("prize"));
                         }
                         return matches;
-                    })
-                    .collect(Collectors.toList());
+                    }).map(ProductMapper::toProductDto).collect(Collectors.toList());
         }
-        return productRepo.findAll();
+        return productRepo.findAll().stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
     }
 
     public Page<Product> findAllPaginated(int page, int size) {

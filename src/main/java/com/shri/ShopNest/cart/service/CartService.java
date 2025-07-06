@@ -24,16 +24,13 @@ public class CartService {
     private final CartRepo cartRepo;
     private final UserRepo userRepo;
     private final CartItemRepo cartItemRepo;
-    private final CartMapper cartMapper;
     private final CartCalculator cartCalculator;
 
     public CartService(CartRepo cartRepo, UserRepo userRepo,
-                       CartItemRepo cartItemRepo, CartMapper cartMapper,
-                       CartCalculator cartCalculator) {
+                       CartItemRepo cartItemRepo, CartCalculator cartCalculator) {
         this.cartRepo = cartRepo;
         this.userRepo = userRepo;
         this.cartItemRepo = cartItemRepo;
-        this.cartMapper = cartMapper;
         this.cartCalculator = cartCalculator;
     }
 
@@ -95,7 +92,7 @@ public class CartService {
         Cart cart = cartItem.getCart();
         cartCalculator.calculateTotals(cart);
 
-        return cartMapper.toCartDTO(cartRepo.save(cart));
+        return CartMapper.toCartDTO(cartRepo.save(cart));
     }
 
     public CartDto removeCartItem(long itemId) throws ResourceNotFoundException {
@@ -105,7 +102,7 @@ public class CartService {
         cart.getItems().removeIf(item -> item.getId().equals(cartItem.getId()));
         cartCalculator.calculateTotals(cart);
 
-        return cartMapper.toCartDTO(cartRepo.save(cart));
+        return CartMapper.toCartDTO(cartRepo.save(cart));
     }
 
     public List<Cart> getAbandonedCarts() {

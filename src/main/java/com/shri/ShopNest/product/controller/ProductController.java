@@ -1,5 +1,6 @@
 package com.shri.ShopNest.product.controller;
 
+import com.shri.ShopNest.product.dto.ProductDto;
 import com.shri.ShopNest.product.model.Product;
 import com.shri.ShopNest.product.service.ProductService;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> findAll(@RequestParam Map<String, String> filter) {
+    public ResponseEntity<List<ProductDto>> findAll(@RequestParam Map<String, String> filter) {
         return new ResponseEntity<>(productService.findAll(filter), HttpStatus.OK);
     }
 

@@ -9,38 +9,36 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
 public class CartMapper {
 
-    public CartItemDto toCartItemDTO(CartItem item) {
-        CartItemDto dto = new CartItemDto();
-        dto.setId(item.getId());
-        dto.setProductId(item.getProduct().getId());
-        dto.setProductName(item.getProduct().getName());
-        dto.setImageURL(item.getProduct().getImageURL());
-        dto.setAvailability(item.getProduct().isAvailability());
-        dto.setQuantity(item.getQuantity());
-        dto.setUnitPrice(item.getUnitPrice().doubleValue());
-        return dto;
+    public static CartItemDto toCartItemDTO(CartItem item) {
+        return CartItemDto.builder()
+                .id(item.getId())
+                .productId(item.getProduct().getId())
+                .productName(item.getProduct().getName())
+                .imageURL(item.getProduct().getImageURL())
+                .availability(item.getProduct().isAvailability())
+                .quantity(item.getQuantity())
+                .unitPrice(item.getUnitPrice().doubleValue())
+                .build();
     }
 
-    public CartDto toCartDTO(Cart cart) {
-        CartDto dto = new CartDto();
-        dto.setId(cart.getId());
-        dto.setUserId(cart.getUser().getId());
-        dto.setStatus(cart.getStatus().toString());
-        dto.setSubtotalPrice(cart.getSubtotalPrice().doubleValue());
-        dto.setDiscountAmount(cart.getDiscountAmount().doubleValue());
-        dto.setTaxAmount(cart.getTaxAmount().doubleValue());
-        dto.setShippingCost(cart.getShippingCost().doubleValue());
-        dto.setGrandTotal(cart.getGrandTotal().doubleValue());
-        dto.setCurrency(cart.getCurrency());
-
+    public static CartDto toCartDTO(Cart cart) {
         List<CartItemDto> itemDTOs = cart.getItems().stream()
-                .map(this::toCartItemDTO)
+                .map(CartMapper::toCartItemDTO)
                 .collect(Collectors.toList());
 
-        dto.setItems(itemDTOs);
-        return dto;
+        return CartDto.builder()
+                .id(cart.getId())
+                .userId(cart.getUser().getId())
+                .status(cart.getStatus().toString())
+                .subtotalPrice(cart.getSubtotalPrice().doubleValue())
+                .discountAmount(cart.getDiscountAmount().doubleValue())
+                .taxAmount(cart.getTaxAmount().doubleValue())
+                .shippingCost(cart.getShippingCost().doubleValue())
+                .grandTotal(cart.getGrandTotal().doubleValue())
+                .currency(cart.getCurrency())
+                .items(itemDTOs)
+                .build();
     }
 }

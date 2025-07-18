@@ -13,8 +13,8 @@ public interface ProductRepo extends JpaRepository<Product, Integer>, JpaSpecifi
 
     List<Product> findByBrandContainingIgnoreCase(String brand);
 
-    List<Product> findByCategoryContainingIgnoreCase(String category);
+//    List<Product> findByCategoryContainingIgnoreCase(String category);
 
-    List<Product> findByNameContainingIgnoreCaseOrBrandContainingIgnoreCaseOrCategoryContainingIgnoreCase(String name, String brand, String category);
+//    List<Product> findByNameContainingIgnoreCaseOrBrandContainingIgnoreCaseOrCategoryContainingIgnoreCase(String name, String brand, String category);
 
 }

@@ -1,6 +1,7 @@
 package com.shri.ShopNest.product.mapper;
 
 import com.shri.ShopNest.product.dto.ProductDto;
+import com.shri.ShopNest.product.dto.ProductUpdateRequestDto;
 import com.shri.ShopNest.product.model.Product;
 
 public class ProductMapper {
@@ -11,7 +12,8 @@ public class ProductMapper {
                 .description(product.getDescription())
                 .brand(product.getBrand())
                 .name(product.getName())
-                .category(product.getCategory())
+                .categoryId(product.getCategory().getId())
+                .categoryName(product.getCategory().getName())
                 .availability(product.isAvailability())
                 .prize(product.getPrize())
                 .imageType(product.getImageType())
@@ -20,4 +22,21 @@ public class ProductMapper {
                 .imageURL(product.getImageURL())
                 .build();
     }
+
+    public static Product toProductEntity(ProductUpdateRequestDto dto) {
+        Product product = new Product();
+
+        product.setId(dto.getId());
+        product.setName(dto.getName());
+        product.setDescription(dto.getDescription());
+        product.setBrand(dto.getBrand());
+        product.setAvailability(dto.isAvailability());
+        product.setPrize(dto.getPrize());
+        product.setQuantity(dto.getQuantity());
+        product.setCategoryName(dto.getCategoryName());
+        product.setImageURL(dto.getImageURL());
+
+        return product;
+    }
+
 }

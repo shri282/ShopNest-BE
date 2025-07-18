@@ -31,8 +31,12 @@ public class Product {
     @Column(nullable = false)
     private int quantity;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
+    private ProductCategory category;
+
     @Column(nullable = false)
-    private String category;
+    private String categoryName;
 
     @Column(nullable = false)
     private String brand;

@@ -1,6 +1,7 @@
 package com.shri.ShopNest.product.controller;
 
 import com.shri.ShopNest.product.dto.ProductDto;
+import com.shri.ShopNest.product.dto.ProductUpdateRequestDto;
 import com.shri.ShopNest.product.model.Product;
 import com.shri.ShopNest.product.service.ProductService;
 import org.springframework.data.domain.Page;
@@ -36,8 +37,8 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product> findOne(@PathVariable int id) {
-        return new ResponseEntity<>(productService.findOne(id), HttpStatus.OK);
+    public ResponseEntity<ProductDto> findOne(@PathVariable int id) {
+        return new ResponseEntity<>(productService.findOneDto(id), HttpStatus.OK);
     }
 
     @PostMapping
@@ -48,7 +49,7 @@ public class ProductController {
     }
 
     @PutMapping
-    public ResponseEntity<Product> update(@RequestPart Product product,
+    public ResponseEntity<Product> update(@RequestPart(value = "product", required = true) ProductUpdateRequestDto product,
                                           @RequestPart(value = "image", required = false)
                                           MultipartFile image) throws IOException {
         return new ResponseEntity<>(productService.update(product, image), HttpStatus.OK);

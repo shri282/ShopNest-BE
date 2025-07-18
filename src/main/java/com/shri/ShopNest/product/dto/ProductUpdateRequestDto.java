@@ -5,17 +5,17 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ProductDto {
+public class ProductUpdateRequestDto {
     private int id;
     private String name;
     private String description;
-    private double prize;
-    private boolean availability;
-    private int quantity;
+    private String brand;
     private Long categoryId;
     private String categoryName;
-    private String brand;
-    private String imageName;
-    private String imageType;
+    private boolean availability;
+    private double prize;
+    private int quantity;
     private String imageURL;
+
 }
+

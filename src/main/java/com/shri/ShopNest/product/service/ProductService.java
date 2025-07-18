@@ -2,8 +2,10 @@ package com.shri.ShopNest.product.service;
 
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
 import com.shri.ShopNest.product.dto.ProductDto;
+import com.shri.ShopNest.product.dto.ProductUpdateRequestDto;
 import com.shri.ShopNest.product.mapper.ProductMapper;
 import com.shri.ShopNest.product.model.Product;
+import com.shri.ShopNest.product.model.ProductCategory;
 import com.shri.ShopNest.product.repo.ProductRepo;
 import com.shri.ShopNest.utils.CloudinaryService;
 import org.springframework.data.domain.Page;
@@ -24,10 +26,14 @@ public class ProductService {
 
     private final ProductRepo productRepo;
     private final CloudinaryService cloudinaryService;
+    private final ProductCategoryService productCategoryService;
 
-    public ProductService(ProductRepo productRepo, CloudinaryService cloudinaryService) {
+    public ProductService(ProductRepo productRepo,
+                          CloudinaryService cloudinaryService,
+                          ProductCategoryService productCategoryService) {
         this.productRepo = productRepo;
         this.cloudinaryService = cloudinaryService;
+        this.productCategoryService = productCategoryService;
     }
 
     public List<ProductDto> findAll(Map<String, String> filter) {
@@ -39,7 +45,7 @@ public class ProductService {
                             matches &= product.getName().equalsIgnoreCase(filter.get("name"));
                         }
                         if (filter.containsKey("category")) {
-                            matches &= product.getCategory().equalsIgnoreCase(filter.get("category"));
+                            matches &= product.getCategory().getName().equalsIgnoreCase(filter.get("category"));
                         }
                         if (filter.containsKey("prize")) {
                             matches &= product.getPrize() == Double.parseDouble(filter.get("prize"));
@@ -58,6 +64,10 @@ public class ProductService {
         return productRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("product not found"));
     }
 
+    public ProductDto findOneDto(int id) throws ResourceNotFoundException {
+        return ProductMapper.toProductDto(findOne(id));
+    }
+
     public Product create(Product product, MultipartFile imageFile) throws IOException {
         if (imageFile != null && !imageFile.isEmpty()) {
             String imageURL = cloudinaryService.upload(imageFile);
@@ -71,9 +81,13 @@ public class ProductService {
         return productRepo.save(product);
     }
 
-    public Product update(Product product, MultipartFile imageFile) throws IOException {
+    public Product update(ProductUpdateRequestDto productUpdateReq, MultipartFile imageFile) throws IOException {
+        Product product = ProductMapper.toProductEntity(productUpdateReq);
+        ProductCategory productCategory = productCategoryService.findOne(productUpdateReq.getCategoryId());
+        product.setCategory(productCategory);
+
         if (imageFile != null && !imageFile.isEmpty()) {
-            Product existingProduct = findOne(product.getId());
+//            Product existingProduct = findOne(product.getId());
 //            if (!Arrays.equals(existingProduct.getImage(), imageFile.getBytes())) {
                 String imageURL = cloudinaryService.upload(imageFile);
                 product.setImageURL(imageURL);
@@ -100,18 +114,18 @@ public class ProductService {
         }
 
         switch (field.toLowerCase()) {
-            case "all" -> {
-                return productRepo.findByNameContainingIgnoreCaseOrBrandContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword, keyword, keyword);
-            }
+//            case "all" -> {
+//                return productRepo.findByNameContainingIgnoreCaseOrBrandContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword, keyword, keyword);
+//            }
             case "name" -> {
                 return productRepo.findByNameContainingIgnoreCase(keyword);
             }
             case "brand" -> {
                 return productRepo.findByBrandContainingIgnoreCase(keyword);
             }
-            case "category" -> {
-                return productRepo.findByCategoryContainingIgnoreCase(keyword);
-            }
+//            case "category" -> {
+//                return productRepo.findByCategoryContainingIgnoreCase(keyword);
+//            }
             default -> throw new IllegalArgumentException("Invalid search field: " + field);
         }
     }

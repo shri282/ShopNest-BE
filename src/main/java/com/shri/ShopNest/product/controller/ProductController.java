@@ -30,7 +30,7 @@ public class ProductController {
     }
 
     @GetMapping("/paginated")
-    public ResponseEntity<Page<Product>> findAllPaginated(@RequestParam Map<String, String> filter) {
+    public ResponseEntity<Page<ProductDto>> findAllPaginated(@RequestParam Map<String, String> filter) {
         return new ResponseEntity<>(
                 productService.findAllPaginated(Integer.parseInt(filter.get("page")),
                         Integer.parseInt(filter.get("size"))), HttpStatus.OK);
@@ -62,7 +62,7 @@ public class ProductController {
     }
 
     @GetMapping("search")
-    public List<Product> search(@RequestParam Map<String, String> keywords) {
+    public List<ProductDto> search(@RequestParam Map<String, String> keywords) {
         Map.Entry<String, String> entry = keywords.entrySet().iterator().next();
         String field = entry.getKey();
         String keyword = entry.getValue();

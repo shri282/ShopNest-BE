@@ -14,6 +14,6 @@ public class ProductSpecification {
     }
 
     public static Specification<Product> hasCategoryLike(String keyword) {
-        return (root, query, builder) -> builder.like(builder.lower(root.get("category")), "%" + keyword.toLowerCase() + "%");
+        return (root, query, builder) -> builder.like(builder.lower(root.get("categoryName")), "%" + keyword.toLowerCase() + "%");
     }
 }

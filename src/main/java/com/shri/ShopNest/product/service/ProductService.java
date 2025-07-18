@@ -56,8 +56,9 @@ public class ProductService {
         return productRepo.findAll().stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
     }
 
-    public Page<Product> findAllPaginated(int page, int size) {
-        return productRepo.findAll(PageRequest.of(page, size));
+    public Page<ProductDto> findAllPaginated(int page, int size) {
+        Page<Product> productPage = productRepo.findAll(PageRequest.of(page, size));
+        return productPage.map(ProductMapper::toProductDto);
     }
 
     public Product findOne(int id) throws ResourceNotFoundException {
@@ -108,29 +109,32 @@ public class ProductService {
         productRepo.deleteById(id);
     }
 
-    public List<Product> search(String field, String keyword) {
+    public List<ProductDto> search(String field, String keyword) {
         if (keyword == null || keyword.isBlank()) {
             throw new IllegalArgumentException("Keyword must not be blank");
         }
+        List<Product> products;
 
         switch (field.toLowerCase()) {
-//            case "all" -> {
-//                return productRepo.findByNameContainingIgnoreCaseOrBrandContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword, keyword, keyword);
-//            }
+            case "all" -> {
+                products = productRepo.findByNameContainingIgnoreCaseOrBrandContainingIgnoreCaseOrCategoryNameContainingIgnoreCase(keyword, keyword, keyword);
+            }
             case "name" -> {
-                return productRepo.findByNameContainingIgnoreCase(keyword);
+                products = productRepo.findByNameContainingIgnoreCase(keyword);
             }
             case "brand" -> {
-                return productRepo.findByBrandContainingIgnoreCase(keyword);
+                products = productRepo.findByBrandContainingIgnoreCase(keyword);
             }
-//            case "category" -> {
-//                return productRepo.findByCategoryContainingIgnoreCase(keyword);
-//            }
+            case "category" -> {
+                products = productRepo.findByCategoryNameContainingIgnoreCase(keyword);
+            }
             default -> throw new IllegalArgumentException("Invalid search field: " + field);
         }
+
+        return products.stream().map(ProductMapper::toProductDto).toList();
     }
 
-    public List<Product> searchWithSpecification(String field, String keyword) {
+    public List<ProductDto> searchWithSpecification(String field, String keyword) {
         if (keyword == null || keyword.isBlank()) {
             throw new IllegalArgumentException("Keyword must not be blank");
         }
@@ -151,7 +155,7 @@ public class ProductService {
             default -> throw new IllegalArgumentException("Invalid search field: " + field);
         }
 
-        return productRepo.findAll(spec);
+        return productRepo.findAll(spec).stream().map(ProductMapper::toProductDto).toList();
     }
 
 

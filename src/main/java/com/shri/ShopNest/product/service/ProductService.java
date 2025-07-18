@@ -110,7 +110,7 @@ public class ProductService {
 
             product.setImageName(imageFile.getOriginalFilename());
             product.setImageType(imageFile.getContentType());
-        } else if (!req.getImageURL().isEmpty()) {
+        } else if (req.getImageURL() != null && !req.getImageURL().isEmpty()) {
             product.setImage(existingProduct.getImage());
             product.setImageName(existingProduct.getImageName());
             product.setImageType(existingProduct.getImageType());

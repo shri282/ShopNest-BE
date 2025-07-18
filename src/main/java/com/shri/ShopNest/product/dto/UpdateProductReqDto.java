@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ProductUpdateRequestDto {
+public class UpdateProductReqDto {
     private int id;
     private String name;
     private String description;
@@ -16,6 +16,5 @@ public class ProductUpdateRequestDto {
     private double prize;
     private int quantity;
     private String imageURL;
-
 }
 

@@ -1,8 +1,8 @@
 package com.shri.ShopNest.product.controller;
 
+import com.shri.ShopNest.product.dto.CreateProductReqDto;
 import com.shri.ShopNest.product.dto.ProductDto;
-import com.shri.ShopNest.product.dto.ProductUpdateRequestDto;
-import com.shri.ShopNest.product.model.Product;
+import com.shri.ShopNest.product.dto.UpdateProductReqDto;
 import com.shri.ShopNest.product.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -42,17 +42,17 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> create(@RequestPart Product product,
+    public ResponseEntity<ProductDto> create(@RequestPart(value = "product", required = true) CreateProductReqDto req,
                                           @RequestPart(value = "image", required = false)
                                           MultipartFile image) throws IOException {
-        return new ResponseEntity<>(productService.create(product, image), HttpStatus.CREATED);
+        return new ResponseEntity<>(productService.create(req, image), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Product> update(@RequestPart(value = "product", required = true) ProductUpdateRequestDto product,
+    public ResponseEntity<ProductDto> update(@RequestPart(value = "product", required = true) UpdateProductReqDto req,
                                           @RequestPart(value = "image", required = false)
                                           MultipartFile image) throws IOException {
-        return new ResponseEntity<>(productService.update(product, image), HttpStatus.OK);
+        return new ResponseEntity<>(productService.update(req, image), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")

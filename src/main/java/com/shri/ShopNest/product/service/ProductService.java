@@ -1,8 +1,9 @@
 package com.shri.ShopNest.product.service;
 
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
+import com.shri.ShopNest.product.dto.CreateProductReqDto;
 import com.shri.ShopNest.product.dto.ProductDto;
-import com.shri.ShopNest.product.dto.ProductUpdateRequestDto;
+import com.shri.ShopNest.product.dto.UpdateProductReqDto;
 import com.shri.ShopNest.product.mapper.ProductMapper;
 import com.shri.ShopNest.product.model.Product;
 import com.shri.ShopNest.product.model.ProductCategory;
@@ -69,39 +70,50 @@ public class ProductService {
         return ProductMapper.toProductDto(findOne(id));
     }
 
-    public Product create(Product product, MultipartFile imageFile) throws IOException {
+    public ProductDto create(CreateProductReqDto req, MultipartFile imageFile) throws IOException {
+        Product product = ProductMapper.toProductEntity(req);
+
+        ProductCategory productCategory = productCategoryService.findOne(req.getCategoryId());
+        product.setCategory(productCategory);
+
         if (imageFile != null && !imageFile.isEmpty()) {
             String imageURL = cloudinaryService.upload(imageFile);
 
             product.setImageName(imageFile.getOriginalFilename());
             product.setImageType(imageFile.getContentType());
-//            product.setImage(imageFile.getBytes());
             product.setImageURL(imageURL);
+            product.setImage(imageFile.getBytes());
         }
 
-        return productRepo.save(product);
+        return ProductMapper.toProductDto(productRepo.save(product));
     }
 
-    public Product update(ProductUpdateRequestDto productUpdateReq, MultipartFile imageFile) throws IOException {
-        Product product = ProductMapper.toProductEntity(productUpdateReq);
-        ProductCategory productCategory = productCategoryService.findOne(productUpdateReq.getCategoryId());
+    public ProductDto update(UpdateProductReqDto req, MultipartFile imageFile) throws IOException {
+        Product product = ProductMapper.toProductEntity(req);
+
+        ProductCategory productCategory = productCategoryService.findOne(req.getCategoryId());
         product.setCategory(productCategory);
 
         if (imageFile != null && !imageFile.isEmpty()) {
-//            Product existingProduct = findOne(product.getId());
-//            if (!Arrays.equals(existingProduct.getImage(), imageFile.getBytes())) {
+            Product existingProduct = findOne(req.getId());
+            byte[] newImageBytes = imageFile.getBytes();
+
+            if (!Arrays.equals(existingProduct.getImage(), newImageBytes)) {
                 String imageURL = cloudinaryService.upload(imageFile);
                 product.setImageURL(imageURL);
-//            }
+                product.setImage(newImageBytes);
+            } else {
+                product.setImage(existingProduct.getImage());
+                product.setImageURL(existingProduct.getImageURL());
+            }
 
             product.setImageName(imageFile.getOriginalFilename());
             product.setImageType(imageFile.getContentType());
-//            product.setImage(imageFile.getBytes());
         } else {
             product.removeImage();
         }
 
-        return productRepo.save(product);
+        return ProductMapper.toProductDto(productRepo.save(product));
     }
 
     public void delete(int id) throws ResourceNotFoundException {

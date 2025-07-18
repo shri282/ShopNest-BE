@@ -94,8 +94,9 @@ public class ProductService {
         ProductCategory productCategory = productCategoryService.findOne(req.getCategoryId());
         product.setCategory(productCategory);
 
-        if (imageFile != null && !imageFile.isEmpty()) {
-            Product existingProduct = findOne(req.getId());
+        Product existingProduct = findOne(req.getId());
+
+        if ((imageFile != null && !imageFile.isEmpty())) {
             byte[] newImageBytes = imageFile.getBytes();
 
             if (!Arrays.equals(existingProduct.getImage(), newImageBytes)) {
@@ -109,6 +110,11 @@ public class ProductService {
 
             product.setImageName(imageFile.getOriginalFilename());
             product.setImageType(imageFile.getContentType());
+        } else if (!req.getImageURL().isEmpty()) {
+            product.setImage(existingProduct.getImage());
+            product.setImageName(existingProduct.getImageName());
+            product.setImageType(existingProduct.getImageType());
+            product.setImageURL(existingProduct.getImageURL());
         } else {
             product.removeImage();
         }

@@ -1,6 +1,10 @@
 package com.shri.ShopNest.user.service;
 
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
+import com.shri.ShopNest.user.dto.AddressResponse;
+import com.shri.ShopNest.user.dto.CreateAddressReq;
+import com.shri.ShopNest.user.dto.UpdateAddressReq;
+import com.shri.ShopNest.user.mapper.AddressMapper;
 import com.shri.ShopNest.user.model.User;
 import com.shri.ShopNest.user.model.UserAddress;
 import com.shri.ShopNest.user.repo.UserAddressRepo;
@@ -48,10 +52,11 @@ public class UserService {
         userRepo.deleteById(id);
     }
 
-    public UserAddress addAddress(Long userId, UserAddress newAddress) {
+    public UserAddress addAddress(Long userId, CreateAddressReq req) {
+        UserAddress address = AddressMapper.toEntity(req);
         User user = getUserOrThrow(userId);
 
-        if (Boolean.TRUE.equals(newAddress.getIsDefault())) {
+        if (Boolean.TRUE.equals(address.getIsDefault())) {
             userAddressRepo.findByUserAndIsDefaultTrue(user)
                     .ifPresent(existingDefault -> {
                         existingDefault.setIsDefault(false);
@@ -59,11 +64,12 @@ public class UserService {
                     });
         }
 
-        newAddress.setUser(user);
-        return userAddressRepo.save(newAddress);
+        address.setUser(user);
+        return userAddressRepo.save(address);
     }
 
-    public UserAddress updateAddress(Long userId, UserAddress address) {
+    public UserAddress updateAddress(Long userId, UpdateAddressReq req) {
+        UserAddress address = AddressMapper.toEntity(req);
         User user = getUserOrThrow(userId);
 
         // In case
@@ -86,14 +92,15 @@ public class UserService {
         return userAddressRepo.save(address);
     }
 
-    public List<UserAddress> getAddresses(Long userId) {
+    public List<AddressResponse> getAddresses(Long userId) {
         User user = getUserOrThrow(userId);
-        return userAddressRepo.findByUser(user);
+        return userAddressRepo.findByUser(user).stream().map(AddressMapper::toDto).toList();
     }
 
-    public Optional<UserAddress> getDefaultAddress(Long userId) {
+    public AddressResponse getDefaultAddress(Long userId) {
         User user = getUserOrThrow(userId);
-        return userAddressRepo.findByUserAndIsDefaultTrue(user);
+        UserAddress address = userAddressRepo.findByUserAndIsDefaultTrue(user).orElseThrow(() -> new ResourceNotFoundException("Default address not found with user: " + user.getUsername()));
+        return AddressMapper.toDto(address);
     }
 
 }

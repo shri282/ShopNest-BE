@@ -1,7 +1,7 @@
 package com.shri.ShopNest.product.service;
 
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
-import com.shri.ShopNest.product.dto.ProductCategoryDto;
+import com.shri.ShopNest.product.dto.ProductCategoryResponse;
 import com.shri.ShopNest.product.mapper.ProductCategoryMapper;
 import com.shri.ShopNest.product.model.ProductCategory;
 import com.shri.ShopNest.product.repo.ProductCategoryRepo;
@@ -16,7 +16,7 @@ public class ProductCategoryService {
     public ProductCategoryService(ProductCategoryRepo productCategoryRepo) {
         this.productCategoryRepo = productCategoryRepo;
     }
-    public List<ProductCategoryDto> findAll() {
+    public List<ProductCategoryResponse> findAll() {
         return productCategoryRepo.findAll().stream().map(ProductCategoryMapper::toDto).toList();
     }
 

@@ -2,7 +2,7 @@ package com.shri.ShopNest.product.service;
 
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
 import com.shri.ShopNest.product.dto.CreateProductReq;
-import com.shri.ShopNest.product.dto.ProductDto;
+import com.shri.ShopNest.product.dto.ProductResponse;
 import com.shri.ShopNest.product.dto.UpdateProductReq;
 import com.shri.ShopNest.product.mapper.ProductMapper;
 import com.shri.ShopNest.product.model.Product;
@@ -37,7 +37,7 @@ public class ProductService {
         this.productCategoryService = productCategoryService;
     }
 
-    public List<ProductDto> findAll(Map<String, String> filter) {
+    public List<ProductResponse> findAll(Map<String, String> filter) {
         if (!filter.isEmpty()) {
             return productRepo.findAll().stream()
                     .filter(product -> {
@@ -57,7 +57,7 @@ public class ProductService {
         return productRepo.findAll().stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
     }
 
-    public Page<ProductDto> findAllPaginated(int page, int size) {
+    public Page<ProductResponse> findAllPaginated(int page, int size) {
         Page<Product> productPage = productRepo.findAll(PageRequest.of(page, size));
         return productPage.map(ProductMapper::toProductDto);
     }
@@ -66,11 +66,11 @@ public class ProductService {
         return productRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("product not found"));
     }
 
-    public ProductDto findOneDto(int id) throws ResourceNotFoundException {
+    public ProductResponse findOneDto(int id) throws ResourceNotFoundException {
         return ProductMapper.toProductDto(findOne(id));
     }
 
-    public ProductDto create(CreateProductReq req, MultipartFile imageFile) throws IOException {
+    public ProductResponse create(CreateProductReq req, MultipartFile imageFile) throws IOException {
         Product product = ProductMapper.toProductEntity(req);
 
         ProductCategory productCategory = productCategoryService.findOne(req.getCategoryId());
@@ -88,7 +88,7 @@ public class ProductService {
         return ProductMapper.toProductDto(productRepo.save(product));
     }
 
-    public ProductDto update(UpdateProductReq req, MultipartFile imageFile) throws IOException {
+    public ProductResponse update(UpdateProductReq req, MultipartFile imageFile) throws IOException {
         Product product = ProductMapper.toProductEntity(req);
 
         ProductCategory productCategory = productCategoryService.findOne(req.getCategoryId());
@@ -127,7 +127,7 @@ public class ProductService {
         productRepo.deleteById(id);
     }
 
-    public List<ProductDto> search(String field, String keyword) {
+    public List<ProductResponse> search(String field, String keyword) {
         if (keyword == null || keyword.isBlank()) {
             throw new IllegalArgumentException("Keyword must not be blank");
         }
@@ -152,7 +152,7 @@ public class ProductService {
         return products.stream().map(ProductMapper::toProductDto).toList();
     }
 
-    public List<ProductDto> searchWithSpecification(String field, String keyword) {
+    public List<ProductResponse> searchWithSpecification(String field, String keyword) {
         if (keyword == null || keyword.isBlank()) {
             throw new IllegalArgumentException("Keyword must not be blank");
         }

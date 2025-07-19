@@ -1,13 +1,13 @@
 package com.shri.ShopNest.product.mapper;
 
-import com.shri.ShopNest.product.dto.ProductCategoryDto;
+import com.shri.ShopNest.product.dto.ProductCategoryResponse;
 import com.shri.ShopNest.product.model.ProductCategory;
 
 public class ProductCategoryMapper {
-    public static ProductCategoryDto toDto(ProductCategory category) {
+    public static ProductCategoryResponse toDto(ProductCategory category) {
         if (category == null) return null;
 
-        return ProductCategoryDto.builder()
+        return ProductCategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
                 .slug(category.getSlug())
@@ -21,7 +21,7 @@ public class ProductCategoryMapper {
                 .build();
     }
 
-    public static ProductCategory toEntity(ProductCategoryDto dto) {
+    public static ProductCategory toEntity(ProductCategoryResponse dto) {
         if (dto == null) return null;
 
         ProductCategory category = new ProductCategory();

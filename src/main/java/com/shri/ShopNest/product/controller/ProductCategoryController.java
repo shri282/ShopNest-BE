@@ -1,6 +1,6 @@
 package com.shri.ShopNest.product.controller;
 
-import com.shri.ShopNest.product.dto.ProductCategoryDto;
+import com.shri.ShopNest.product.dto.ProductCategoryResponse;
 import com.shri.ShopNest.product.service.ProductCategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ public class ProductCategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductCategoryDto>> findAll() {
+    public ResponseEntity<List<ProductCategoryResponse>> findAll() {
         return ResponseEntity.ok(productCategoryService.findAll());
     }
 

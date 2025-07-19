@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductCategoryDto {
+public class ProductCategoryResponse {
     private Long id;
     private String name;
     private String slug;

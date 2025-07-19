@@ -1,14 +1,14 @@
 package com.shri.ShopNest.product.mapper;
 
 import com.shri.ShopNest.product.dto.CreateProductReq;
-import com.shri.ShopNest.product.dto.ProductDto;
+import com.shri.ShopNest.product.dto.ProductResponse;
 import com.shri.ShopNest.product.dto.UpdateProductReq;
 import com.shri.ShopNest.product.model.Product;
 
 public class ProductMapper {
 
-    public static ProductDto toProductDto(Product product) {
-        return ProductDto.builder()
+    public static ProductResponse toProductDto(Product product) {
+        return ProductResponse.builder()
                 .id(product.getId())
                 .description(product.getDescription())
                 .brand(product.getBrand())

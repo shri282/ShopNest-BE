@@ -1,9 +1,10 @@
 package com.shri.ShopNest.product.controller;
 
-import com.shri.ShopNest.product.dto.CreateProductReqDto;
+import com.shri.ShopNest.product.dto.CreateProductReq;
 import com.shri.ShopNest.product.dto.ProductDto;
-import com.shri.ShopNest.product.dto.UpdateProductReqDto;
+import com.shri.ShopNest.product.dto.UpdateProductReq;
 import com.shri.ShopNest.product.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,14 +43,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> create(@RequestPart(value = "product", required = true) CreateProductReqDto req,
+    public ResponseEntity<ProductDto> create(@Valid @RequestPart(value = "product", required = true) CreateProductReq req,
                                           @RequestPart(value = "image", required = false)
                                           MultipartFile image) throws IOException {
         return new ResponseEntity<>(productService.create(req, image), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<ProductDto> update(@RequestPart(value = "product", required = true) UpdateProductReqDto req,
+    public ResponseEntity<ProductDto> update(@Valid @RequestPart(value = "product", required = true) UpdateProductReq req,
                                           @RequestPart(value = "image", required = false)
                                           MultipartFile image) throws IOException {
         return new ResponseEntity<>(productService.update(req, image), HttpStatus.OK);

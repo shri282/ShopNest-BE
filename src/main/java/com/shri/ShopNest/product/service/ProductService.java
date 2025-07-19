@@ -1,9 +1,9 @@
 package com.shri.ShopNest.product.service;
 
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
-import com.shri.ShopNest.product.dto.CreateProductReqDto;
+import com.shri.ShopNest.product.dto.CreateProductReq;
 import com.shri.ShopNest.product.dto.ProductDto;
-import com.shri.ShopNest.product.dto.UpdateProductReqDto;
+import com.shri.ShopNest.product.dto.UpdateProductReq;
 import com.shri.ShopNest.product.mapper.ProductMapper;
 import com.shri.ShopNest.product.model.Product;
 import com.shri.ShopNest.product.model.ProductCategory;
@@ -70,7 +70,7 @@ public class ProductService {
         return ProductMapper.toProductDto(findOne(id));
     }
 
-    public ProductDto create(CreateProductReqDto req, MultipartFile imageFile) throws IOException {
+    public ProductDto create(CreateProductReq req, MultipartFile imageFile) throws IOException {
         Product product = ProductMapper.toProductEntity(req);
 
         ProductCategory productCategory = productCategoryService.findOne(req.getCategoryId());
@@ -88,7 +88,7 @@ public class ProductService {
         return ProductMapper.toProductDto(productRepo.save(product));
     }
 
-    public ProductDto update(UpdateProductReqDto req, MultipartFile imageFile) throws IOException {
+    public ProductDto update(UpdateProductReq req, MultipartFile imageFile) throws IOException {
         Product product = ProductMapper.toProductEntity(req);
 
         ProductCategory productCategory = productCategoryService.findOne(req.getCategoryId());

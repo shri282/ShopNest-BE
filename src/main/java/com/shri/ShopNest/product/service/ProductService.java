@@ -51,6 +51,11 @@ public class ProductService {
                         if (filter.containsKey("prize")) {
                             matches &= product.getPrize() == Double.parseDouble(filter.get("prize"));
                         }
+                        if (filter.containsKey("newArrivals")) {
+                            matches &= product.getCreatedAt().isAfter(
+                                    java.time.LocalDateTime.now().minusDays(15)
+                            );
+                        }
                         return matches;
                     }).map(ProductMapper::toProductDto).collect(Collectors.toList());
         }

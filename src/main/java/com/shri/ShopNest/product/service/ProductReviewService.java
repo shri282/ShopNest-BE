@@ -41,8 +41,12 @@ public class ProductReviewService {
                                         CreateProductReviewReq productReviewData,
                                         List<MultipartFile> medias) throws IOException {
         ProductReview productReview = ProductReviewMapper.toProductReviewEntity(productReviewData);
+
         User reviewer = userRepo.getReferenceById(reviewerId);
         Product product = productRepo.getReferenceById(productId);
+        productReview.setProduct(product);
+        productReview.setReviewer(reviewer);
+
         StringBuilder mediaUrls = new StringBuilder();
 
         if (!medias.isEmpty()) {

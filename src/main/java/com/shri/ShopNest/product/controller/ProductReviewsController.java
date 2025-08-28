@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("product/{productId}/reviews")
+@RequestMapping("products/{productId}/reviews")
 public class ProductReviewsController {
     private final ProductReviewService productReviewService;
 

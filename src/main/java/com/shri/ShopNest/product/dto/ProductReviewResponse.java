@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 public class ProductReviewResponse {
     private Long id;
-    private User reviewer;
+    private ReviewerDTO reviewer;
     private float rating;
     private String title;
     private String content;

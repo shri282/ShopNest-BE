@@ -6,13 +6,19 @@ import com.shri.ShopNest.product.model.ProductReview;
 
 public class ProductReviewMapper {
     public static ProductReviewResponse toProductReviewDto(ProductReview productReview) {
+        ReviewerDTO reviewerDTO = ReviewerDTO.builder()
+                .username(productReview.getReviewer().getUsername())
+                .avatarUrl("")
+                .id(productReview.getReviewer().getId())
+                .joinDate(productReview.getReviewer().getCreatedAt().toLocalDate()).build();
+
         return ProductReviewResponse.builder()
                 .id(productReview.getId())
                 .title(productReview.getTitle())
                 .content(productReview.getContent())
                 .mediaUrls(productReview.getMediaUrls())
                 .rating(productReview.getRating())
-                .reviewer(productReview.getReviewer())
+                .reviewer(reviewerDTO)
                 .verifiedPurchase(productReview.isVerifiedPurchase())
                 .reportCount(productReview.getReportCount())
                 .helpfulCount(productReview.getHelpfulCount())

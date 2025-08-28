@@ -3,8 +3,10 @@ package com.shri.ShopNest.product.model;
 import com.shri.ShopNest.product.enums.ReviewStatus;
 import com.shri.ShopNest.user.model.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +14,8 @@ import java.time.LocalDateTime;
 @Table(name = "product_reviews")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductReview {
 
     @Id

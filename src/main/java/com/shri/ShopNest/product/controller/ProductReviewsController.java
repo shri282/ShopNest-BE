@@ -2,6 +2,7 @@ package com.shri.ShopNest.product.controller;
 
 import com.shri.ShopNest.product.dto.CreateProductReviewReq;
 import com.shri.ShopNest.product.dto.ProductReviewResponse;
+import com.shri.ShopNest.product.dto.ProductReviewStatsResponse;
 import com.shri.ShopNest.product.service.ProductReviewService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +34,10 @@ public class ProductReviewsController {
             @RequestPart(value = "media", required = false) List<MultipartFile> medias) throws IOException {
 
         return ResponseEntity.ok(productReviewService.create(productId, reviewerId, productReview, medias));
+    }
+
+    @GetMapping("stats")
+    public ResponseEntity<ProductReviewStatsResponse> stats(@PathVariable("productId") int productId) {
+        return ResponseEntity.ok(productReviewService.getReviewStats(productId));
     }
 }

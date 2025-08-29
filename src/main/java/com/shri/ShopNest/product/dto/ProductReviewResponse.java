@@ -4,6 +4,8 @@ import com.shri.ShopNest.user.model.User;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 public class ProductReviewResponse {
@@ -16,4 +18,5 @@ public class ProductReviewResponse {
     private boolean verifiedPurchase;
     private int helpfulCount;
     private int reportCount;
+    private LocalDateTime createdAt;
 }

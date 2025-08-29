@@ -22,6 +22,7 @@ public class ProductReviewMapper {
                 .verifiedPurchase(productReview.isVerifiedPurchase())
                 .reportCount(productReview.getReportCount())
                 .helpfulCount(productReview.getHelpfulCount())
+                .createdAt(productReview.getCreatedAt())
                 .build();
     }
 

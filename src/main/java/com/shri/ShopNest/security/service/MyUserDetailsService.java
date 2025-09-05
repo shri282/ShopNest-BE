@@ -1,7 +1,7 @@
 package com.shri.ShopNest.security.service;
 
-import com.shri.ShopNest.user.model.User;
-import com.shri.ShopNest.user.repo.UserRepo;
+import com.shri.ShopNest.modules.user.model.User;
+import com.shri.ShopNest.modules.user.repo.UserRepo;
 import com.shri.ShopNest.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

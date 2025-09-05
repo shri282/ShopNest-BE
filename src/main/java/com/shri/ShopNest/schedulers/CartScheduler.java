@@ -1,7 +1,7 @@
 package com.shri.ShopNest.schedulers;
 
 
-import com.shri.ShopNest.cart.service.CartService;
+import com.shri.ShopNest.modules.cart.service.CartService;
 import com.shri.ShopNest.utils.EmailService;
 import org.springframework.stereotype.Service;
 

@@ -16,6 +16,9 @@ public class WishlistItemDto {
     private Long wishlistId;
     private int productId;
     private String productName;
+    private String productDescription;
+    private double productPrize;
+    private String productImageUrl;
     private Integer priority;
     private String notes;
     private LocalDateTime addedAt;

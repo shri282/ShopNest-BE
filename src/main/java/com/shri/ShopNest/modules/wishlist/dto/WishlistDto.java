@@ -14,5 +14,5 @@ import java.util.List;
 public class WishlistDto {
     private Long id;
     private String name;
-    private List<WishlistItemDto> wishlistItemDto;
+    private List<WishlistItemDto> wishlistItems;
 }

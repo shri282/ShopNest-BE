@@ -2,6 +2,7 @@ package com.shri.ShopNest.modules.wishlist.mapper;
 
 import com.shri.ShopNest.modules.wishlist.dto.WishlistDto;
 import com.shri.ShopNest.modules.wishlist.dto.WishlistItemDto;
+import com.shri.ShopNest.modules.wishlist.dto.WishlistSummaryDto;
 import com.shri.ShopNest.modules.wishlist.model.Wishlist;
 import com.shri.ShopNest.modules.wishlist.model.WishlistItem;
 
@@ -21,6 +22,9 @@ public class WishlistMapper {
                     .addedAt(wishlistItem.getAddedAt())
                     .productId(wishlistItem.getProduct().getId())
                     .productName(wishlistItem.getProduct().getName())
+                    .productDescription(wishlistItem.getProduct().getDescription())
+                    .productPrize(wishlistItem.getProduct().getPrize())
+                    .productImageUrl(wishlistItem.getProduct().getImageURL())
                     .build();
 
             wishlistItemDtoList.add(wishlistItemDto);
@@ -29,7 +33,15 @@ public class WishlistMapper {
         return WishlistDto.builder()
                 .name(wishlist.getName())
                 .id(wishlist.getId())
-                .wishlistItemDto(wishlistItemDtoList)
+                .wishlistItems(wishlistItemDtoList)
+                .build();
+    }
+
+    public static WishlistSummaryDto wishlistSummaryDto(Wishlist wishlist) {
+        return WishlistSummaryDto.builder()
+                .id(wishlist.getId())
+                .name(wishlist.getName())
+                .isDefault(wishlist.isDefault())
                 .build();
     }
 }

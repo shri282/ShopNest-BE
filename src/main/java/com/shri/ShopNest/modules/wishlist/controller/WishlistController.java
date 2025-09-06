@@ -2,6 +2,7 @@ package com.shri.ShopNest.modules.wishlist.controller;
 
 import com.shri.ShopNest.modules.wishlist.dto.AddWishlistItemRequest;
 import com.shri.ShopNest.modules.wishlist.dto.WishlistDto;
+import com.shri.ShopNest.modules.wishlist.dto.WishlistSummaryDto;
 import com.shri.ShopNest.modules.wishlist.service.WishlistService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,11 @@ public class WishlistController {
     @PostMapping("addItem")
     public ResponseEntity<WishlistDto> addItem(@RequestBody AddWishlistItemRequest request, @PathVariable("userId") Long userId) {
         return ResponseEntity.ok(wishlistService.addItem(request, userId));
+    }
+
+    @GetMapping("summary")
+    public ResponseEntity<List<WishlistSummaryDto>> getAllWishlistSummary(@PathVariable("userId") Long userId) {
+        return ResponseEntity.ok(wishlistService.getAllWishlistSummary(userId));
     }
 
 }

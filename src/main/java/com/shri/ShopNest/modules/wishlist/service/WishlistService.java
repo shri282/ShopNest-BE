@@ -7,12 +7,14 @@ import com.shri.ShopNest.modules.user.model.User;
 import com.shri.ShopNest.modules.user.service.UserService;
 import com.shri.ShopNest.modules.wishlist.dto.AddWishlistItemRequest;
 import com.shri.ShopNest.modules.wishlist.dto.WishlistDto;
+import com.shri.ShopNest.modules.wishlist.dto.WishlistSummaryDto;
 import com.shri.ShopNest.modules.wishlist.mapper.WishlistMapper;
 import com.shri.ShopNest.modules.wishlist.model.Wishlist;
 import com.shri.ShopNest.modules.wishlist.model.WishlistItem;
 import com.shri.ShopNest.modules.wishlist.repo.WishlistRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -84,4 +86,14 @@ public class WishlistService {
         return WishlistMapper.toDto(wishlistRepo.save(wishlist));
     }
 
+    public List<WishlistSummaryDto> getAllWishlistSummary(Long userId) {
+        User user = userService.findOne(userId);
+        List<Wishlist> wishlists = wishlistRepo.findByUser(user);
+
+        if (wishlists.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return wishlists.stream().map(WishlistMapper::wishlistSummaryDto).toList();
+    }
 }

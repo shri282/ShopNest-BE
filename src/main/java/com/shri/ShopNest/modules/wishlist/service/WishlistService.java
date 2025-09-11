@@ -1,5 +1,6 @@
 package com.shri.ShopNest.modules.wishlist.service;
 
+import com.shri.ShopNest.exception.exceptions.ConflictException;
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
 import com.shri.ShopNest.modules.product.model.Product;
 import com.shri.ShopNest.modules.product.service.ProductService;
@@ -72,16 +73,25 @@ public class WishlistService {
                     });
         }
 
+        List<WishlistItem> items = wishlist.getItems();
+        if (!items.isEmpty()) {
+            boolean isAlreadyAdded = items.stream()
+                    .anyMatch((wl) -> wl.getProduct().getId() == request.getProductId());
+
+            if (isAlreadyAdded) {
+                throw new ConflictException("Wishlist item already added");
+            }
+        }
         Product product = productService.findOne(request.getProductId());
 
         WishlistItem wishlistItem = WishlistItem.builder()
                 .notes(request.getNotes())
-                .priority(3)
+                .priority(request.getPriority())
                 .wishlist(wishlist)
                 .product(product)
                 .build();
 
-        wishlist.getItems().add(wishlistItem);
+        items.add(wishlistItem);
 
         return WishlistMapper.toDto(wishlistRepo.save(wishlist));
     }
@@ -95,5 +105,13 @@ public class WishlistService {
         }
 
         return wishlists.stream().map(WishlistMapper::wishlistSummaryDto).toList();
+    }
+
+    public String moveWlToCart(Long wlId, Long userId) {
+        return null;
+    }
+
+    public String moveWlItemToCart(Long wlId, Long itemId, Long userId) {
+        return null;
     }
 }

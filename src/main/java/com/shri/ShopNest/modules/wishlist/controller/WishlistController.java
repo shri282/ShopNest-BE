@@ -38,4 +38,14 @@ public class WishlistController {
         return ResponseEntity.ok(wishlistService.getAllWishlistSummary(userId));
     }
 
+    @PostMapping("/{wlId}/move-to-cart")
+    public ResponseEntity<String> moveWlToCart(@PathVariable("userId") Long userId, @PathVariable("wlId") Long wlId) {
+        return ResponseEntity.ok(wishlistService.moveWlToCart(wlId, userId));
+    }
+
+    @PostMapping("/{wlId}/items/{itemId}/move-to-cart")
+    public ResponseEntity<String> moveWlItemToCart(@PathVariable("userId") Long userId, @PathVariable("itemId") Long itemId, @PathVariable("wlId") Long wlId) {
+        return ResponseEntity.ok(wishlistService.moveWlItemToCart(wlId, itemId, userId));
+    }
+
 }

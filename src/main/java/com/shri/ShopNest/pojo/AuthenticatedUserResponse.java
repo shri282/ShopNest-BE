@@ -9,4 +9,5 @@ import lombok.Data;
 public class AuthenticatedUserResponse {
     private User user;
     private String token;
+    private String refreshToken;
 }

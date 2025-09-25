@@ -49,15 +49,15 @@ public class CartService {
                 .filter(item -> item.getProduct().getId() == product.getId())
                 .findFirst();
 
+        CartItem cartItem;
         if (cartItemOp.isPresent()) {
-            CartItem cartItem = cartItemOp.get();
+            cartItem = cartItemOp.get();
             cartItem.addQuantity(1);
-            cartCalculator.calculateTotals(cart);
-            return cartRepo.save(cart);
+        } else {
+            cartItem = new CartItem(cart, product);
+            cart.getItems().add(cartItem);
         }
 
-        CartItem cartItem = new CartItem(cart, product);
-        cart.getItems().add(cartItem);
         cartCalculator.calculateTotals(cart);
         return cartRepo.save(cart);
     }

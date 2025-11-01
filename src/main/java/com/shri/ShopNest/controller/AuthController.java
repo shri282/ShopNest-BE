@@ -1,9 +1,9 @@
 package com.shri.ShopNest.controller;
 
+import com.shri.ShopNest.modules.auth.AuthService;
 import com.shri.ShopNest.modules.user.dto.AuthRequest;
 import com.shri.ShopNest.modules.user.dto.RegisterRequest;
 import com.shri.ShopNest.model.User;
-import com.shri.ShopNest.modules.auth.AuthService;
 import com.shri.ShopNest.pojo.AuthenticatedUserResponse;
 import com.shri.ShopNest.utils.CookieUtils;
 import jakarta.servlet.http.Cookie;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -44,7 +45,7 @@ public class AuthController {
         return new ResponseEntity<>(authService.register(request), HttpStatus.CREATED);
     }
 
-    @GetMapping("/auth/refresh")
+    @GetMapping("refresh")
     public ResponseEntity<AuthenticatedUserResponse> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         Cookie token = CookieUtils.getCookie(request, "refreshToken")
                 .orElseThrow(() -> new BadCredentialsException("Invalid refresh token"));
@@ -62,9 +63,9 @@ public class AuthController {
         return ResponseEntity.ok(authResponse);
     }
 
-    public String oauth(HttpServletRequest req, HttpServletResponse res) {
-
-        return "";
+    @GetMapping("oauth/{provider}/login")
+    public ResponseEntity<String> oauthLogin(@PathVariable("provider") String provider) {
+        return ResponseEntity.ok(authService.oauthLogin(provider));
     }
 
 }

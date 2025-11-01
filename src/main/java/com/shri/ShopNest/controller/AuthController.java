@@ -1,5 +1,6 @@
 package com.shri.ShopNest.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.shri.ShopNest.modules.auth.AuthService;
 import com.shri.ShopNest.modules.user.dto.AuthRequest;
 import com.shri.ShopNest.modules.user.dto.RegisterRequest;
@@ -9,10 +10,13 @@ import com.shri.ShopNest.utils.CookieUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -63,9 +67,39 @@ public class AuthController {
         return ResponseEntity.ok(authResponse);
     }
 
-    @GetMapping("oauth/{provider}/login")
-    public ResponseEntity<String> oauthLogin(@PathVariable("provider") String provider) {
-        return ResponseEntity.ok(authService.oauthLogin(provider));
+    @GetMapping("oauth/{provider}/start")
+    public void oauthLogin(@PathVariable("provider") String provider,
+                                             HttpServletResponse res) throws IOException {
+        String state = UUID.randomUUID().toString();
+
+        ResponseCookie stateCookie = ResponseCookie.from("oauth_state", state)
+                .httpOnly(true)
+                .secure(false)
+                .sameSite("Lax")
+                .path("/auth/oauth/google")
+                .maxAge(Duration.ofMinutes(10))
+                .build();
+        res.addHeader(HttpHeaders.SET_COOKIE, stateCookie.toString());
+
+        String loginUri = authService.oauthLogin(provider, state);
+        res.sendRedirect(loginUri);
+    }
+
+    @GetMapping("oauth/{provider}/callback")
+    public ResponseEntity<String> oAuthCallback(@RequestParam("code") String code,
+                              @PathVariable("provider") String provider,
+                              @RequestParam("state") String state,
+                              @CookieValue(name = "oauth_state", required = false) String stateCookie,
+                              HttpServletResponse response) throws JsonProcessingException {
+
+        if (stateCookie == null || !stateCookie.equals(state)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid state");
+        }
+
+        String html = authService.oauthCallback(provider, code);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_HTML);
+        return new ResponseEntity<>(html, headers, HttpStatus.OK);
     }
 
 }

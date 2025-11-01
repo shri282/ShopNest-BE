@@ -1,5 +1,6 @@
 package com.shri.ShopNest.modules.auth;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.shri.ShopNest.exception.exceptions.InvalidUserNameOrPasswordException;
 import com.shri.ShopNest.modules.oauth.OAuth;
 import com.shri.ShopNest.modules.oauth.OAuthFactory;
@@ -11,6 +12,8 @@ import com.shri.ShopNest.repo.UserRepo;
 import com.shri.ShopNest.pojo.AuthenticatedUserResponse;
 import com.shri.ShopNest.modules.jwt.JwtService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -73,8 +76,13 @@ public class AuthService {
         return new AuthenticatedUserResponse(user, accessToken, refreshToken);
     }
 
-    public String oauthLogin(String sp) {
+    public String oauthLogin(String sp, String state) {
         OAuth oAuthProvider = oAuthFactory.getOAuthProvider(sp);
-        return oAuthProvider.getLoginUrl();
+        return oAuthProvider.buildLoginUrl(state);
+    }
+
+    public String oauthCallback(String sp, String code) throws JsonProcessingException {
+        OAuth oAuthProvider = oAuthFactory.getOAuthProvider(sp);
+        return oAuthProvider.callback(code);
     }
 }

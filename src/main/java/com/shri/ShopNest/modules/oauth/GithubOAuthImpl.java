@@ -5,7 +5,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class GithubOAuthImpl implements OAuth {
     @Override
-    public String getLoginUrl() {
+    public String buildLoginUrl(String state) {
         return "";
+    }
+
+    @Override
+    public String callback(String code) {
+        return null;
     }
 }

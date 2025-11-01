@@ -13,6 +13,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -44,6 +45,17 @@ public class UserService {
 
     public User update(User user) {
         return userRepo.save(user);
+    }
+
+    public User upsert(User user) {
+        Optional<User> userData = userRepo.findByEmail(user.getEmail());
+        if (userData.isPresent()) {
+            User old = userData.get();
+            old.setUsername(user.getUsername());
+            return this.update(old);
+        }
+
+        return this.create(user);
     }
 
     public void remove(Long id) {

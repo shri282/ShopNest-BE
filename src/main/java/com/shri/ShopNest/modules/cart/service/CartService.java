@@ -1,16 +1,16 @@
 package com.shri.ShopNest.modules.cart.service;
 
 import com.shri.ShopNest.modules.cart.dto.CartDto;
-import com.shri.ShopNest.modules.cart.enums.CartStatus;
+import com.shri.ShopNest.enums.CartStatus;
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
 import com.shri.ShopNest.modules.cart.mapper.CartMapper;
-import com.shri.ShopNest.modules.cart.model.Cart;
-import com.shri.ShopNest.modules.cart.model.CartItem;
-import com.shri.ShopNest.modules.cart.repo.CartItemRepo;
-import com.shri.ShopNest.modules.cart.repo.CartRepo;
-import com.shri.ShopNest.modules.product.model.Product;
-import com.shri.ShopNest.modules.user.model.User;
-import com.shri.ShopNest.modules.user.repo.UserRepo;
+import com.shri.ShopNest.model.Cart;
+import com.shri.ShopNest.model.CartItem;
+import com.shri.ShopNest.repo.CartItemRepo;
+import com.shri.ShopNest.repo.CartRepo;
+import com.shri.ShopNest.model.Product;
+import com.shri.ShopNest.model.User;
+import com.shri.ShopNest.repo.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;

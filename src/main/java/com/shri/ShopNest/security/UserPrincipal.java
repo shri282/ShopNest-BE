@@ -1,6 +1,6 @@
 package com.shri.ShopNest.security;
 
-import com.shri.ShopNest.modules.user.model.User;
+import com.shri.ShopNest.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

@@ -3,8 +3,8 @@ package com.shri.ShopNest.modules.wishlist.mapper;
 import com.shri.ShopNest.modules.wishlist.dto.WishlistDto;
 import com.shri.ShopNest.modules.wishlist.dto.WishlistItemDto;
 import com.shri.ShopNest.modules.wishlist.dto.WishlistSummaryDto;
-import com.shri.ShopNest.modules.wishlist.model.Wishlist;
-import com.shri.ShopNest.modules.wishlist.model.WishlistItem;
+import com.shri.ShopNest.model.Wishlist;
+import com.shri.ShopNest.model.WishlistItem;
 
 import java.util.ArrayList;
 import java.util.List;

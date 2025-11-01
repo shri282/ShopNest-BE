@@ -3,7 +3,7 @@ package com.shri.ShopNest.modules.product.mapper;
 import com.shri.ShopNest.modules.product.dto.CreateProductReq;
 import com.shri.ShopNest.modules.product.dto.ProductResponse;
 import com.shri.ShopNest.modules.product.dto.UpdateProductReq;
-import com.shri.ShopNest.modules.product.model.Product;
+import com.shri.ShopNest.model.Product;
 
 public class ProductMapper {
 

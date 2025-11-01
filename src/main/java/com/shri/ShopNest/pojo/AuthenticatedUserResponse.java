@@ -1,6 +1,6 @@
 package com.shri.ShopNest.pojo;
 
-import com.shri.ShopNest.modules.user.model.User;
+import com.shri.ShopNest.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

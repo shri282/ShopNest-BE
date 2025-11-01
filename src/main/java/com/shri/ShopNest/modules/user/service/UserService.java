@@ -1,14 +1,14 @@
 package com.shri.ShopNest.modules.user.service;
 
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
-import com.shri.ShopNest.modules.user.model.User;
-import com.shri.ShopNest.modules.user.repo.UserRepo;
+import com.shri.ShopNest.model.User;
+import com.shri.ShopNest.repo.UserRepo;
 import com.shri.ShopNest.modules.user.dto.AddressResponse;
 import com.shri.ShopNest.modules.user.dto.CreateAddressReq;
 import com.shri.ShopNest.modules.user.dto.UpdateAddressReq;
 import com.shri.ShopNest.modules.user.mapper.AddressMapper;
-import com.shri.ShopNest.modules.user.model.UserAddress;
-import com.shri.ShopNest.modules.user.repo.UserAddressRepo;
+import com.shri.ShopNest.model.UserAddress;
+import com.shri.ShopNest.repo.UserAddressRepo;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 

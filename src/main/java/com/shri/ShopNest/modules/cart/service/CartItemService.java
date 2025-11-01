@@ -1,8 +1,8 @@
 package com.shri.ShopNest.modules.cart.service;
 
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
-import com.shri.ShopNest.modules.cart.model.CartItem;
-import com.shri.ShopNest.modules.cart.repo.CartItemRepo;
+import com.shri.ShopNest.model.CartItem;
+import com.shri.ShopNest.repo.CartItemRepo;
 import org.springframework.stereotype.Service;
 
 @Service

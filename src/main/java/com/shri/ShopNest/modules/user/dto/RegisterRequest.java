@@ -1,7 +1,7 @@
 package com.shri.ShopNest.modules.user.dto;
 
-import com.shri.ShopNest.modules.user.enums.Gender;
-import com.shri.ShopNest.modules.user.model.User;
+import com.shri.ShopNest.enums.Gender;
+import com.shri.ShopNest.model.User;
 
 import java.time.LocalDate;
 

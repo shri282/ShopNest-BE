@@ -3,7 +3,7 @@ package com.shri.ShopNest.modules.user.mapper;
 import com.shri.ShopNest.modules.user.dto.AddressResponse;
 import com.shri.ShopNest.modules.user.dto.CreateAddressReq;
 import com.shri.ShopNest.modules.user.dto.UpdateAddressReq;
-import com.shri.ShopNest.modules.user.model.UserAddress;
+import com.shri.ShopNest.model.UserAddress;
 
 public class AddressMapper {
     public static UserAddress toEntity(CreateAddressReq dto) {

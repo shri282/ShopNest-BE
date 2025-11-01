@@ -2,8 +2,8 @@ package com.shri.ShopNest.modules.cart.mapper;
 
 import com.shri.ShopNest.modules.cart.dto.CartDto;
 import com.shri.ShopNest.modules.cart.dto.CartItemDto;
-import com.shri.ShopNest.modules.cart.model.Cart;
-import com.shri.ShopNest.modules.cart.model.CartItem;
+import com.shri.ShopNest.model.Cart;
+import com.shri.ShopNest.model.CartItem;
 
 import java.util.List;
 import java.util.stream.Collectors;

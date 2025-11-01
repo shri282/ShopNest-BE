@@ -1,8 +1,8 @@
 package com.shri.ShopNest.modules.payment;
 
-import com.shri.ShopNest.modules.cart.model.Cart;
-import com.shri.ShopNest.modules.cart.model.CartItem;
-import com.shri.ShopNest.modules.cart.repo.CartRepo;
+import com.shri.ShopNest.model.Cart;
+import com.shri.ShopNest.model.CartItem;
+import com.shri.ShopNest.repo.CartRepo;
 import com.shri.ShopNest.modules.payment.dto.StripeResponse;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;

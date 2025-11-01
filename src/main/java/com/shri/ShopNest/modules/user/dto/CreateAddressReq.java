@@ -1,6 +1,6 @@
 package com.shri.ShopNest.modules.user.dto;
 
-import com.shri.ShopNest.modules.user.enums.AddressType;
+import com.shri.ShopNest.enums.AddressType;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;

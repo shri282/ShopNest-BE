@@ -3,8 +3,8 @@ package com.shri.ShopNest.modules.product.service;
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
 import com.shri.ShopNest.modules.product.dto.ProductCategoryResponse;
 import com.shri.ShopNest.modules.product.mapper.ProductCategoryMapper;
-import com.shri.ShopNest.modules.product.model.ProductCategory;
-import com.shri.ShopNest.modules.product.repo.ProductCategoryRepo;
+import com.shri.ShopNest.model.ProductCategory;
+import com.shri.ShopNest.repo.ProductCategoryRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -2,17 +2,17 @@ package com.shri.ShopNest.modules.wishlist.service;
 
 import com.shri.ShopNest.exception.exceptions.ConflictException;
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
-import com.shri.ShopNest.modules.product.model.Product;
+import com.shri.ShopNest.model.Product;
 import com.shri.ShopNest.modules.product.service.ProductService;
-import com.shri.ShopNest.modules.user.model.User;
+import com.shri.ShopNest.model.User;
 import com.shri.ShopNest.modules.user.service.UserService;
 import com.shri.ShopNest.modules.wishlist.dto.AddWishlistItemRequest;
 import com.shri.ShopNest.modules.wishlist.dto.WishlistDto;
 import com.shri.ShopNest.modules.wishlist.dto.WishlistSummaryDto;
 import com.shri.ShopNest.modules.wishlist.mapper.WishlistMapper;
-import com.shri.ShopNest.modules.wishlist.model.Wishlist;
-import com.shri.ShopNest.modules.wishlist.model.WishlistItem;
-import com.shri.ShopNest.modules.wishlist.repo.WishlistRepo;
+import com.shri.ShopNest.model.Wishlist;
+import com.shri.ShopNest.model.WishlistItem;
+import com.shri.ShopNest.repo.WishlistRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.shri.ShopNest.modules.product.specification;
 
-import com.shri.ShopNest.modules.product.model.Product;
+import com.shri.ShopNest.model.Product;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ProductSpecification {

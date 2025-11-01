@@ -3,8 +3,8 @@ package com.shri.ShopNest.modules.product.mapper;
 import com.shri.ShopNest.modules.product.dto.CreateProductReviewReq;
 import com.shri.ShopNest.modules.product.dto.ProductReviewResponse;
 import com.shri.ShopNest.modules.product.dto.ReviewerDTO;
-import com.shri.ShopNest.modules.product.enums.ReviewStatus;
-import com.shri.ShopNest.modules.product.model.ProductReview;
+import com.shri.ShopNest.enums.ReviewStatus;
+import com.shri.ShopNest.model.ProductReview;
 
 public class ProductReviewMapper {
     public static ProductReviewResponse toProductReviewDto(ProductReview productReview) {

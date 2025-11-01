@@ -1,7 +1,7 @@
 package com.shri.ShopNest.filter;
 
-import com.shri.ShopNest.security.service.JwtService;
-import com.shri.ShopNest.security.service.MyUserDetailsService;
+import com.shri.ShopNest.modules.jwt.JwtService;
+import com.shri.ShopNest.security.MyUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

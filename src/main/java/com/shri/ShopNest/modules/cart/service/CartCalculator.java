@@ -1,7 +1,7 @@
 package com.shri.ShopNest.modules.cart.service;
 
-import com.shri.ShopNest.modules.cart.model.Cart;
-import com.shri.ShopNest.modules.cart.model.CartItem;
+import com.shri.ShopNest.model.Cart;
+import com.shri.ShopNest.model.CartItem;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

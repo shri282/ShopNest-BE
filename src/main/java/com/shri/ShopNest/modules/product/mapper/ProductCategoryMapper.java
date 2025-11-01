@@ -1,7 +1,7 @@
 package com.shri.ShopNest.modules.product.mapper;
 
 import com.shri.ShopNest.modules.product.dto.ProductCategoryResponse;
-import com.shri.ShopNest.modules.product.model.ProductCategory;
+import com.shri.ShopNest.model.ProductCategory;
 
 public class ProductCategoryMapper {
     public static ProductCategoryResponse toDto(ProductCategory category) {

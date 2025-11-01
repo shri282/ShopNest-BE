@@ -1,6 +1,6 @@
 package com.shri.ShopNest.modules.user.dto;
 
-import com.shri.ShopNest.modules.user.enums.UserRole;
+import com.shri.ShopNest.enums.UserRole;
 import lombok.Data;
 
 @Data

@@ -76,7 +76,7 @@ public class AuthController {
                 .httpOnly(true)
                 .secure(false)
                 .sameSite("Lax")
-                .path("/auth/oauth/google")
+                .path("/auth/oauth/github")
                 .maxAge(Duration.ofMinutes(10))
                 .build();
         res.addHeader(HttpHeaders.SET_COOKIE, stateCookie.toString());

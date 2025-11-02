@@ -3,6 +3,7 @@ package com.shri.ShopNest.exception;
 import com.shri.ShopNest.exception.exceptions.ConflictException;
 import com.shri.ShopNest.exception.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestControllerAdvice
 @SuppressWarnings("unused")
 public class GlobalExceptionHandler {
@@ -38,6 +40,8 @@ public class GlobalExceptionHandler {
                 req.getRequestURI()
         );
 
+        log.warn("Validation failed at {}: {}", req.getRequestURI(), errorMessages, ex);
+
         return ResponseEntity.badRequest().body(response);
     }
 
@@ -50,6 +54,9 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 req.getRequestURI()
         );
+
+        log.warn("Conflict at {}: {}", req.getRequestURI(), ex.getMessage(), ex);
+
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
@@ -62,6 +69,9 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 req.getRequestURI()
         );
+
+        log.warn("Resource not found at {}: {}", req.getRequestURI(), ex.getMessage(), ex);
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
@@ -74,6 +84,9 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 req.getRequestURI()
         );
+
+        log.warn("Unauthorized access at {}: {}", req.getRequestURI(), ex.getMessage(), ex);
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
@@ -86,19 +99,26 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getRequestURI()
         );
+
+        log.error("API exception at {}: {}", request.getRequestURI(), ex.getMessage(), ex);
+
         return new ResponseEntity<>(response, ex.getStatus());
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleAllUncaught(HttpServletRequest request) {
+    public ResponseEntity<ApiErrorResponse> handleAllUncaught(Exception ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+
         ApiErrorResponse response = new ApiErrorResponse(
                 LocalDateTime.now(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
-                "Unexpected error occurred",
+                status.value(),
+                status.getReasonPhrase(),
+                ex.getMessage(),
                 request.getRequestURI()
         );
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 
+        log.error("Unhandled exception at {}: {}", request.getRequestURI(), ex.getMessage(), ex);
+
+        return new ResponseEntity<>(response, status);
+    }
 }

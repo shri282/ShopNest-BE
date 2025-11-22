@@ -31,7 +31,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(nullable = false)
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -39,12 +38,23 @@ public class User {
     @Column(nullable = false)
     private List<UserRole> roles;
 
-    private boolean enabled;
+    @Builder.Default
+    @Column(columnDefinition = "TINYINT(1) DEFAULT 0")
+    private boolean isOAuthUser = false;
 
-    private boolean accountNonLocked;
+    @Builder.Default
+    @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
+    private boolean enabled = true;
 
-    @Column(unique = true, nullable = false)
+    @Builder.Default
+    @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
+    private boolean accountNonLocked = true;
+
+    @Column(unique = true)
     private String phNo;
+
+    @Column(name = "pic", columnDefinition = "TEXT")
+    private String pic;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

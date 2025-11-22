@@ -56,9 +56,9 @@ public class GithubOAuthImpl implements OAuth {
                 User.builder()
                         .username(githubUser.getName())
                         .email(githubUser.getEmail())
-                        .password("oauth")
+                        .pic(githubUser.getPicture())
+                        .isOAuthUser(true)
                         .roles(List.of(UserRole.valueOf("USER")))
-                        .phNo("2342347834")
                         .build()
         );
 

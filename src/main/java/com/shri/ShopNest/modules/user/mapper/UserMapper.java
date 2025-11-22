@@ -17,6 +17,7 @@ public class UserMapper {
                 .dob(user.getDob())
                 .gender(user.getGender())
                 .roles(user.getRoles())
+                .pic(user.getPic())
                 .enabled(user.isEnabled())
                 .accountNonLocked(user.isAccountNonLocked())
                 .phNo(user.getPhNo())

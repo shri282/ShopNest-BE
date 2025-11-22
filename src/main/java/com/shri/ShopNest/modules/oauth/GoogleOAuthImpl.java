@@ -54,12 +54,12 @@ public class GoogleOAuthImpl implements OAuth {
 
         User user = userService.upsert(
                 User.builder()
-                .username(googleUser.getName())
-                .email(googleUser.getEmail())
-                .password("oauth")
-                .roles(List.of(UserRole.valueOf("USER")))
-                .phNo("2342347834")
-                .build()
+                        .username(googleUser.getName())
+                        .email(googleUser.getEmail())
+                        .pic(googleUser.getPicture())
+                        .isOAuthUser(true)
+                        .roles(List.of(UserRole.valueOf("USER")))
+                        .build()
         );
 
         ObjectMapper mapper = new ObjectMapper();

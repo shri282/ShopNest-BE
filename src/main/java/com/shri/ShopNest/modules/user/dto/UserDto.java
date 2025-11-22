@@ -18,6 +18,7 @@ public class UserDto {
     private String email;
     private LocalDate dob;
     private Gender gender;
+    private String pic;
     private List<UserRole> roles;
     private boolean enabled;
     private boolean accountNonLocked;

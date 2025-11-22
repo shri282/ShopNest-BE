@@ -52,6 +52,7 @@ public class UserService {
         if (userData.isPresent()) {
             User old = userData.get();
             old.setUsername(user.getUsername());
+            old.setPic(user.getPic());
             return this.update(old);
         }
 

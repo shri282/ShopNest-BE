@@ -1,17 +1,9 @@
 package com.shri.ShopNest.modules.oauth;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shri.ShopNest.config.properties.GithubOAuthProperties;
-import com.shri.ShopNest.config.properties.GoogleOAuthProperties;
-import com.shri.ShopNest.enums.UserRole;
-import com.shri.ShopNest.model.User;
 import com.shri.ShopNest.modules.jwt.JwtService;
 import com.shri.ShopNest.modules.oauth.dto.GitHubTokenResponse;
 import com.shri.ShopNest.modules.oauth.dto.GithubUser;
-import com.shri.ShopNest.modules.oauth.dto.GoogleTokenResp;
-import com.shri.ShopNest.modules.oauth.dto.GoogleUser;
-import com.shri.ShopNest.modules.user.mapper.UserMapper;
 import com.shri.ShopNest.modules.user.service.UserService;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -24,16 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class GithubOAuthImpl implements OAuth {
+public class GithubOAuthImpl extends AbstractOAuthProvider {
     private final GithubOAuthProperties githubOAuthProperties;
-    private final UserService userService;
-    private final JwtService jwtService;
 
     public GithubOAuthImpl(GithubOAuthProperties githubOAuthProperties,
                            JwtService jwtService, UserService userService) {
+        super(userService, jwtService);
         this.githubOAuthProperties = githubOAuthProperties;
-        this.jwtService = jwtService;
-        this.userService = userService;
     }
 
     @Override
@@ -47,53 +36,7 @@ public class GithubOAuthImpl implements OAuth {
                 .toUriString();
     }
 
-    @Override
-    public String callback(String code) throws JsonProcessingException {
-        GitHubTokenResponse resp = this.exchangeCodeForToken(code);
-        GithubUser githubUser = this.getUserInfo(resp.getAccessToken());
-
-        User user = userService.upsert(
-                User.builder()
-                        .username(githubUser.getName())
-                        .email(githubUser.getEmail())
-                        .pic(githubUser.getPicture())
-                        .isOAuthUser(true)
-                        .roles(List.of(UserRole.valueOf("USER")))
-                        .build()
-        );
-
-        ObjectMapper mapper = new ObjectMapper();
-        String userJson = mapper.writeValueAsString(UserMapper.toDto(user));
-        String accessToken = jwtService.generateAccessToken(user.getUsername());
-
-        String html = """
-            <!doctype html>
-            <html>
-            <head><meta charset="utf-8"></head>
-            <body>
-            <script>
-              (function() {
-                // IMPORTANT: set allowed origin exactly to frontendOrigin
-                const allowedOrigin = "%s";
-                if (window.opener) {
-                  window.opener.postMessage({ token: "%s", user: "%s" }, allowedOrigin);
-                }
-                window.close();
-              })();
-            </script>
-            <p>Authentication complete. You can close this window.</p>
-            </body>
-            </html>
-            """.formatted("http://localhost:3001", accessToken, escapeForJS(userJson));
-
-        return html;
-    }
-
-    private static String escapeForJS(String json) {
-        return json.replace("\\", "\\\\").replace("'", "\\'").replace("\"", "\\\"");
-    }
-
-    private GitHubTokenResponse exchangeCodeForToken(String code) {
+    public GitHubTokenResponse exchangeCode(String code) {
         RestTemplate rt = new RestTemplate();
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("code", code);
@@ -115,7 +58,7 @@ public class GithubOAuthImpl implements OAuth {
                 .build();
     }
 
-    public GithubUser getUserInfo(String accessToken) {
+    public GithubUser fetchUser(String accessToken) {
         RestTemplate rt = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);

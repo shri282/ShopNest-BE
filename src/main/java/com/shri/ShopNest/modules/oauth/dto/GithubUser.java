@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class GithubUser {
+public class GithubUser implements OAuthUser {
     private String email;
     private String name;
     private String picture;

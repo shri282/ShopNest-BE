@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class GitHubTokenResponse {
+public class GitHubTokenResponse implements TokenResponse {
     private String accessToken;
     private String scope;
     private String tokenType;

@@ -1,14 +1,9 @@
 package com.shri.ShopNest.modules.oauth;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shri.ShopNest.config.properties.GoogleOAuthProperties;
-import com.shri.ShopNest.enums.UserRole;
-import com.shri.ShopNest.model.User;
 import com.shri.ShopNest.modules.jwt.JwtService;
 import com.shri.ShopNest.modules.oauth.dto.GoogleTokenResp;
 import com.shri.ShopNest.modules.oauth.dto.GoogleUser;
-import com.shri.ShopNest.modules.user.mapper.UserMapper;
 import com.shri.ShopNest.modules.user.service.UserService;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -17,21 +12,17 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
 import java.util.Map;
 
 @Component
-public class GoogleOAuthImpl implements OAuth {
+public class GoogleOAuthImpl extends AbstractOAuthProvider {
     private final GoogleOAuthProperties googleOAuthProperties;
-    private final UserService userService;
-    private final JwtService jwtService;
 
     public GoogleOAuthImpl(GoogleOAuthProperties googleOAuthProperties,
                            UserService userService,
                            JwtService jwtService) {
+        super(userService, jwtService);
         this.googleOAuthProperties = googleOAuthProperties;
-        this.userService = userService;
-        this.jwtService = jwtService;
     }
 
     @Override
@@ -47,53 +38,7 @@ public class GoogleOAuthImpl implements OAuth {
                 .toUriString();
     }
 
-    @Override
-    public String callback(String code) throws JsonProcessingException {
-        GoogleTokenResp resp = this.exchangeCodeForToken(code);
-        GoogleUser googleUser = this.getUserInfo(resp.getAccessToken());
-
-        User user = userService.upsert(
-                User.builder()
-                        .username(googleUser.getName())
-                        .email(googleUser.getEmail())
-                        .pic(googleUser.getPicture())
-                        .isOAuthUser(true)
-                        .roles(List.of(UserRole.valueOf("USER")))
-                        .build()
-        );
-
-        ObjectMapper mapper = new ObjectMapper();
-        String userJson = mapper.writeValueAsString(UserMapper.toDto(user));
-        String accessToken = jwtService.generateAccessToken(user.getUsername());
-
-        String html = """
-            <!doctype html>
-            <html>
-            <head><meta charset="utf-8"></head>
-            <body>
-            <script>
-              (function() {
-                // IMPORTANT: set allowed origin exactly to frontendOrigin
-                const allowedOrigin = "%s";
-                if (window.opener) {
-                  window.opener.postMessage({ token: "%s", user: "%s" }, allowedOrigin);
-                }
-                window.close();
-              })();
-            </script>
-            <p>Authentication complete. You can close this window.</p>
-            </body>
-            </html>
-            """.formatted("http://localhost:3001", accessToken, escapeForJS(userJson));
-
-        return html;
-    }
-
-    private static String escapeForJS(String json) {
-        return json.replace("\\", "\\\\").replace("'", "\\'").replace("\"", "\\\"");
-    }
-
-    private GoogleTokenResp exchangeCodeForToken(String code) {
+    protected GoogleTokenResp exchangeCode(String code) {
         RestTemplate rt = new RestTemplate();
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("code", code);
@@ -116,7 +61,7 @@ public class GoogleOAuthImpl implements OAuth {
                 .build();
     }
 
-    public GoogleUser getUserInfo(String accessToken) {
+    public GoogleUser fetchUser(String accessToken) {
         RestTemplate rt = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);

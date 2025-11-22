@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class GoogleTokenResp {
+public class GoogleTokenResp implements TokenResponse {
     private String accessToken;
     private String refreshToken;
     private String idToken;

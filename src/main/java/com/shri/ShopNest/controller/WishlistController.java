@@ -28,6 +28,11 @@ public class WishlistController {
         return ResponseEntity.ok(wishlistService.getAllWishlist(userId));
     }
 
+    @GetMapping("{wishlistId}")
+    public ResponseEntity<WishlistDto> getWishlist(@PathVariable("wishlistId") Long wishlistId) {
+        return ResponseEntity.ok(wishlistService.getWishlist(wishlistId));
+    }
+
     @PostMapping("addItem")
     public ResponseEntity<WishlistDto> addItem(@RequestBody AddWishlistItemRequest request, @PathVariable("userId") Long userId) {
         return ResponseEntity.ok(wishlistService.addItem(request, userId));

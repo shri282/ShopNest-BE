@@ -48,6 +48,13 @@ public class WishlistService {
         return WishlistMapper.toDto(wishlist);
     }
 
+    public WishlistDto getWishlist(Long wishlistId) {
+        Wishlist wishlist = wishlistRepo.findById(wishlistId)
+                .orElseThrow(() -> new ResourceNotFoundException("no wishlist found"));
+
+        return WishlistMapper.toDto(wishlist);
+    }
+
     public List<WishlistDto> getAllWishlist(Long userId) {
         User user = userService.findOne(userId);
         List<Wishlist> wishlists = wishlistRepo.findByUser(user);

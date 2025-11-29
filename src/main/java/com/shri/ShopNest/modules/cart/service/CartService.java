@@ -61,6 +61,7 @@ public class CartService {
         cartCalculator.calculateTotals(cart);
         return cartRepo.save(cart);
     }
+
     public Cart getOrCreateCart(long userId) throws ResourceNotFoundException {
         List<Cart> carts = cartRepo.findByUserId(userId);
         User user = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user not found"));

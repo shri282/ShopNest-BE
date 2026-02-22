@@ -5,6 +5,7 @@ import com.shri.ShopNest.modules.jwt.JwtService;
 import com.shri.ShopNest.modules.oauth.dto.GitHubTokenResponse;
 import com.shri.ShopNest.modules.oauth.dto.GithubUser;
 import com.shri.ShopNest.modules.user.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -20,8 +21,8 @@ public class GithubOAuthImpl extends AbstractOAuthProvider {
     private final GithubOAuthProperties githubOAuthProperties;
 
     public GithubOAuthImpl(GithubOAuthProperties githubOAuthProperties,
-                           JwtService jwtService, UserService userService) {
-        super(userService, jwtService);
+                           JwtService jwtService, UserService userService, @Value("${frontend.url}") String frontendUrl ) {
+        super(userService, jwtService, frontendUrl);
         this.githubOAuthProperties = githubOAuthProperties;
     }
 

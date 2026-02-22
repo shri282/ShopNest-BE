@@ -17,10 +17,12 @@ public abstract class AbstractOAuthProvider implements OAuth {
     protected final UserService userService;
     protected final JwtService jwtService;
     protected final ObjectMapper mapper = new ObjectMapper();
+    protected final String FE_URL;
 
-    protected AbstractOAuthProvider(UserService userService, JwtService jwtService) {
+    protected AbstractOAuthProvider(UserService userService, JwtService jwtService, String fEndUrl) {
         this.userService = userService;
         this.jwtService = jwtService;
+        this.FE_URL = fEndUrl;
     }
 
     protected abstract TokenResponse exchangeCode(String code);
@@ -63,6 +65,6 @@ public abstract class AbstractOAuthProvider implements OAuth {
                 window.close();
             </script>
             </body></html>
-        """.formatted("http://localhost:3001", token, userJson);
+        """.formatted(FE_URL, token, userJson);
     }
 }
